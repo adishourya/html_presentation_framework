@@ -1,50 +1,71 @@
 /* --- Global --- */
+
+:root {
+  --background-color: #fefefe;
+  --slide-background: #ffffff;
+  --outline-color: #5e81ac;
+  --heading-colors: #000000;
+  --text-color: #212121;
+  --overview-zoom: 0.35;
+  --font-sans: 'Inter', sans-serif;
+}
+
+
 html {
-  background: #f4f4f5;
+  background: var(--slide-background);
 }
 
 body {
-  background: #f4f4f5;
+  background: var(--slide-background);
   margin: 0;
   overflow: hidden;
 }
 
 
 /* --- Typography Overrides --- */
+
+
+
 h1,
-h2,
-h3 {
-  color: #000;
+h2 {
+  font-family: var(--font-sans);
+  color: var(--heading-colors);
 }
 
+
+h3,
+h4,
 p,
+body,
 li {
-  color: #212121;
+  font-family: var(--font-sans);
+  color: var(--text-color);
 }
 
-body {
-  color: #212121;
-}
+
 
 #deck {
   height: 100vh;
   width: 100vw;
   position: relative;
+  padding: 0;
 }
 
 /* --- Slide Card --- */
 .slide {
   position: absolute;
-  inset: 5vh 5vw;
-  padding: 3rem;
-
-  background: white;
+  inset: 2rem;
+  padding: 3.5rem 3rem 3rem 3rem;
+  /* padding: 3rem; */
+  background: var(--background-color);
   border-radius: 24px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 
   opacity: 0;
   transform: translateX(40px);
   transition: all 0.4s ease;
+
+  /* outline: 2px solid var(--outline-color); */
 }
 
 .slide.active {
@@ -95,15 +116,10 @@ body.overview #deck {
 body.overview .slide {
   position: relative;
   inset: auto;
-
   width: 100%;
   height: 100%;
-
   opacity: 1;
   transform: none;
-
   cursor: pointer;
-
-  /* 🔑 THIS is the magic */
-  zoom: 0.35;
+  zoom: var(--overview-zoom);
 }
