@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal Slides</title>
+
+  <!-- Pico.css for sane defaults -->
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <link rel="stylesheet" href="layout.css" />
+</head>
+<body>
+
+<main id="deck">
+
+  <!-- Fullscreen / Title slide -->
+  <section class="slide center">
+    <h1>My Presentation</h1>
+    <p>A minimal card-based framework</p>
+  </section>
+
+  
+
+  <!-- Two column layout -->
+  <section class="slide two-col">
+    <div>
+      <h2>Left Column</h2>
+      <ul>
+        <li>Point one</li>
+        <li>Point two</li>
+        <li>Point three</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Right Column</h2>
+      <p>
+        This is a simple two-column layout.
+      </p>
+    </div>
+  </section>
+
+  <!-- Centered / Keynote-style -->
+  <section class="slide keynote">
+    <h2>Big Idea</h2>
+    <p>Centered, calm, and focused.</p>
+  </section>
+
+</main>
+
+<script src="layout.js"></script>
+</body>
+</html>
