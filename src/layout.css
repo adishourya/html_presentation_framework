@@ -1,73 +1,140 @@
-/* --- Global --- */
-
+/* --- Global Variables --- */
 :root {
-  --background-color: #fefefe;
-  --slide-background: #ffffff;
-  --outline-color: #5e81ac;
-  --heading-colors: #000000;
+  --aspect: 16/9;
+  --accent-color: #5e81ac;
+  --background-color: #dbdee9;
+  --slide-background: #fefefe;
+  --heading-color: #000000;
   --text-color: #212121;
   --overview-zoom: 0.35;
   --font-sans: 'Inter', sans-serif;
 }
 
+/* --- Dark Theme Overrides --- */
+body.dark {
+  --accent-color: #5e81ac;
+  --background-color: #080f0f;
+  --slide-background: #111318;
+  --heading-color: #f5f7fa;
+  --text-color: #cfd6e0;
+  --outline-color: #81a1c1;
+}
 
+/* --- Reset HTML / Body --- */
 html {
-  background: var(--slide-background);
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 body {
-  background: var(--slide-background);
+  background: var(--background-color);
   margin: 0;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-sans);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
-/* --- Typography Overrides --- */
-
-
-
+/* --- Typography --- */
 h1,
 h2 {
   font-family: var(--font-sans);
-  color: var(--heading-colors);
+  color: var(--heading-color);
 }
-
 
 h3,
 h4,
 p,
-body,
 li {
-  font-family: var(--font-sans);
   color: var(--text-color);
+  font-family: var(--font-sans);
 }
 
-
-
+/* --- Deck Container --- */
 #deck {
   height: 100vh;
   width: 100vw;
   position: relative;
   padding: 0;
+  z-index: 1;
 }
 
 /* --- Slide Card --- */
 .slide {
   position: absolute;
-  inset: 2rem;
-  padding: 3.5rem 3rem 3rem 3rem;
-  /* padding: 3rem; */
-  background: var(--background-color);
+  inset: 1em 1em 0.1em 1em;
+  padding: 2.5rem;
+  background: var(--slide-background);
+  border: 1px solid rgb(255 255 255 / 5%);
   border-radius: 24px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-
   opacity: 0;
-  transform: translateX(40px);
-  transition: all 0.4s ease;
-
-  /* outline: 2px solid var(--outline-color); */
+  transform: translateY(100%);
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.3s ease-out,
+    background-color 0.3s ease;
+  z-index: 2;
 }
 
+.slide-footer-right {
+  position: absolute;
+  bottom: 1.2rem;
+  right: 1.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--text-color) 65%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.slide-footer-left {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.6rem;
+  font-size: 0.5rem;
+  /* letter-spacing: 0.04em; */
+  color: color-mix(in srgb, var(--text-color) 65%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.slide-header-right {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.6rem;
+  font-size: 0.5rem;
+  /* letter-spacing: 0.04em; */
+  color: color-mix(in srgb, var(--text-color) 65%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* --- Slide Accent Animation on change slide --- */
+.slide::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 75%;
+  width: 1px;
+  height: 100px;
+  background: linear-gradient(transparent, var(--accent-color), transparent);
+  opacity: 0;
+  transition: top 5s ease, opacity 3s ease;
+}
+
+/* .slide:hover::after, */
+.slide.animate::after {
+  top: 30%;
+  opacity: 1;
+}
+
+/* --- Sliding Animation on next and previous slide --- */
 .slide.active {
   opacity: 1;
   transform: translateX(0);
@@ -76,7 +143,8 @@ li {
 
 .slide.prev {
   opacity: 0;
-  transform: translateX(-40px);
+  transform: translateY(-100%);
+  z-index: 1;
 }
 
 /* --- Layouts --- */
@@ -89,37 +157,98 @@ li {
   text-align: center;
 }
 
-.slide.keynote h2 {
+
+.slide.keynote h1 {
   font-size: 3rem;
+}
+
+.slide.keynote h2 {
+  font-size: 2rem;
 }
 
 .slide.two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 2rem;
   align-items: center;
 }
 
-
 /* --- Overview Mode --- */
 body.overview {
-  overflow: auto;
+  overflow: hidden;
 }
 
 body.overview #deck {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
   gap: 2rem;
   padding: 2rem;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  justify-content: center;
+  background: var(--background-color);
 }
 
 body.overview .slide {
   position: relative;
   inset: auto;
   width: 100%;
-  height: 100%;
+  aspect-ratio: var(--aspect);
+  height: auto;
   opacity: 1;
   transform: none;
   cursor: pointer;
   zoom: var(--overview-zoom);
+}
+
+
+body.overview .slide {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+body.overview .slide:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  border-color: color-mix(in srgb, var(--accent-color) 60%, transparent);
+}
+
+
+/* --- Overview Hover Slide Number --- */
+body.overview .slide::before {
+  content: attr(data-index);
+
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 2rem;
+  font-weight: 600;
+
+  background: var(--accent-color);
+  color: white;
+
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  pointer-events: none;
+}
+
+body.overview .slide:hover::before {
+  opacity: 1;
+  transform: scale(1);
 }

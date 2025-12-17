@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" >
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,34 +10,25 @@
   <!-- Pico.css for sane defaults -->
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
   <link rel="stylesheet" href="src/layout.css" />
-
-  
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
 
-
 </head>
-<body>
+<!-- <body class="light"> -->
+<body class="dark">
 
-<main id="deck">
+<main id="deck" >
 
   <!-- Fullscreen / Title slide -->
-  <section class="slide center">
-    <h1>Slide Center</h1>
-    <p>A minimal card-based framework</p>
+  <section class="slide keynote">
+    <h2>Headings</h2>
+    <p> foo </p>
   </section>
 
 
   <!-- Two column layout -->
   <section class="slide two-col">
-    <div>
-      <h2>Left Column</h2>
-      <ul>
-        <li>Point one</li>
-        <li>Point two</li>
-        <li>Point three</li>
-      </ul>
-    </div>
+    <div> </div>
     <div>
       <h2>Right Column</h2>
       <p>
@@ -44,7 +37,20 @@
     </div>
   </section>
 
+  
+  <section class="slide two-col">
+    <div> <h2> Left Column </h2> <p> Some text </p> </div>
+    <div> </div>
+  </section>
+
+  
+  <section class="slide two-col">
+    <div> </div>
+    <div> <h2> Right Column </h2> <p> Some text </p> </div>
+  </section>
+
   <!-- Centered / Keynote-style -->
+
   <section class="slide keynote">
     <h2>Big Idea</h2>
     <p>Centered, calm, and focused.</p>
