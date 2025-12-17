@@ -289,7 +289,7 @@ body.overview #deck {
   overflow-y: auto;
   box-sizing: border-box;
   justify-content: center;
-  background: var(--background-color);
+  background: transparent;
 }
 
 body.overview .slide {
