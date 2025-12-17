@@ -1,7 +1,7 @@
 /* --- Global Variables --- */
 :root {
   --aspect: 16/9;
-  --accent-color: #5e81ac;
+  --accent-color: #bf616a;
   --background-color: #dbdee9;
   --slide-background: #fefefe;
   --heading-color: #000000;
@@ -14,13 +14,34 @@
 body.dark {
   --accent-color: #5e81ac;
   --background-color: #080f0f;
-  --slide-background: #111318;
+  --slide-background: #000;
   --heading-color: #f5f7fa;
   --text-color: #cfd6e0;
   --outline-color: #81a1c1;
 }
 
+/* experimental but i am fine with it */
+
+/* Target the video specifically */
+body.dark video {
+  filter: invert(1) hue-rotate(180deg);
+  /* Optional: Smooth transition when toggling themes */
+  transition: filter 0.3s ease;
+}
+
+/* Ensure the lens clone also gets the inversion */
+#lens-content body.dark video {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 /* --- Reset HTML / Body --- */
+
+/* Hide the real cursor globally */
+html,
+body {
+  cursor: none;
+}
+
 html {
   margin: 0;
   padding: 0;
@@ -72,7 +93,7 @@ li {
   border-radius: 24px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   opacity: 0;
-  transform: translateY(100%);
+  transform: translateX(100%);
   transition:
     transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     opacity 0.3s ease-out,
@@ -119,9 +140,9 @@ li {
 .slide::after {
   content: "";
   position: absolute;
-  left: -1px;
+  left: -3px;
   top: 75%;
-  width: 1px;
+  width: 3px;
   height: 100px;
   background: linear-gradient(transparent, var(--accent-color), transparent);
   opacity: 0;
@@ -143,7 +164,7 @@ li {
 
 .slide.prev {
   opacity: 0;
-  transform: translateY(-100%);
+  transform: translateX(-100%);
   z-index: 1;
 }
 
@@ -199,7 +220,7 @@ body.overview .slide {
   height: auto;
   opacity: 1;
   transform: none;
-  cursor: pointer;
+  cursor: none;
   zoom: var(--overview-zoom);
 }
 
@@ -251,4 +272,50 @@ body.overview .slide::before {
 body.overview .slide:hover::before {
   opacity: 1;
   transform: scale(1);
+}
+
+#lens {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
+  /* This is your zoom area radius */
+  height: 150px;
+  border-radius: 50%;
+  border: 0px;
+  /* Very faint edge */
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  background: var(--slide-background);
+  /* Crucial: hides the un-zoomed text underneath */
+  box-shadow: none;
+  /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); */
+  display: block;
+}
+
+/* Your tiny precision dot */
+#lens::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+}
+
+#lens-content {
+  position: absolute;
+  /* Make sure the content starts at the top-left of the viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transform-origin: 0 0;
+  pointer-events: none;
 }
