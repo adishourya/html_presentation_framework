@@ -2,7 +2,7 @@
 
 A lightweight, developer-first presentation engine built with vanilla JavaScript and CSS. It features **Helix-inspired** keybindings, a unique **magnifying lens cursor**, and a "smart" dark mode for technical content.
 
-### [🚀 Try the Live Demo](https://adishourya.github.io/myhtml_presentation_framework/?slide=0)
+### [🚀 Try the Live Demo](https://adishourya.github.io/html_presentation_framework/?slide=0)
 
 ---
 
@@ -45,13 +45,10 @@ This framework uses **Helix/Vim-ish** modal navigation for speed.
 
 1. **Clone the Repo:**
 ```bash
-git clone https://github.com/adishourya/myhtml_presentation_framework.git
-
+git clone https://github.com/adishourya/html_presentation_framework.git
 ```
 2. **Edit Content:** Simply add `<section class="slide">` tags inside the `#deck` container in `index.html`.
 3. **Theming:** Update your branding colors in the `:root` section of the CSS and headers and footers in `layout.js`
-
-```
 
 
 ## 🤝 Contributing
