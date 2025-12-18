@@ -12,10 +12,7 @@
   --font-sans: 'Helvetica Neue', sans-serif;
   --font-mono: 'Martian Mono', sans-serif;
 
-  /* Background grid (NEW) */
-  --grid-minor: rgba(0, 0, 0, 0.04);
-  --grid-major: rgba(0, 0, 0, 0.07);
-
+  /* Background grid */
   --grid-minor: rgba(0, 0, 0, 0.04);
   --grid-major: rgba(0, 0, 0, 0.07);
 }
@@ -29,23 +26,14 @@ body.dark {
   --slide-background: #000;
   --heading-color: #f5f7fa;
   --text-color: #cfd6e0;
-  --outline-color: #81a1c1;
 
-  /* Grid colors (NEW) */
   --grid-minor: rgba(255, 255, 255, 0.04);
   --grid-major: rgba(255, 255, 255, 0.08);
 }
 
-/* =========================================================
-   Experimental video inversion (unchanged)
-   ========================================================= */
 body.dark video {
   filter: invert(1) hue-rotate(180deg);
   transition: filter 0.3s ease;
-}
-
-#lens-content body.dark video {
-  filter: invert(1) hue-rotate(180deg);
 }
 
 /* =========================================================
@@ -54,99 +42,50 @@ body.dark video {
 html,
 body {
   cursor: none;
-}
-
-html {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
 }
 
 body {
   background: var(--background-color);
-  margin: 0;
   overflow: hidden;
-  height: 100%;
-  width: 100%;
   font-family: var(--font-sans);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* =========================================================
-   GLOBAL BACKGROUND LAYER (NEW, SAFE)
+   GLOBAL BACKGROUND LAYER (Infinite Parallax)
    ========================================================= */
 #bg-layer {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-
   background-image:
-    repeating-linear-gradient(45deg,
-      var(--grid-minor) 0px,
-      var(--grid-minor) 1px,
-      transparent 1px,
-      transparent 14px),
-    repeating-linear-gradient(-45deg,
-      var(--grid-minor) 0px,
-      var(--grid-minor) 1px,
-      transparent 1px,
-      transparent 14px),
-    repeating-linear-gradient(0deg,
-      var(--grid-major) 0px,
-      var(--grid-major) 1px,
-      transparent 1px,
-      transparent 80px),
-    repeating-linear-gradient(90deg,
-      var(--grid-major) 0px,
-      var(--grid-major) 1px,
-      transparent 1px,
-      transparent 80px);
-
-  background-size: 200% 200%;
-  background-position: 0% 0%;
+    repeating-linear-gradient(45deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px),
+    repeating-linear-gradient(-45deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px),
+    repeating-linear-gradient(0deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(90deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 80px);
+  background-size: 160px 160px;
+  background-position: 0px 0px;
+  background-repeat: repeat;
   filter: blur(0.6px);
   opacity: 0.9;
-
-  transition:
-    background-position 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.3s ease;
+  will-change: background-position;
 }
 
-/* Vignette */
 #bg-layer::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center,
-      transparent 35%,
-      rgba(0, 0, 0, 0.08) 100%);
+  background: radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.08) 100%);
 }
 
 /* =========================================================
-   Typography
-   ========================================================= */
-h1 {
-  font-family: var(--font-mono);
-  color: var(--heading-color);
-}
-
-h2 {
-  font-family: var(--font-sans);
-  color: var(--heading-color);
-}
-
-h3,
-h4,
-p,
-li {
-  color: var(--text-color);
-  font-family: var(--font-sans);
-}
-
-/* =========================================================
-   Deck Container (UNCHANGED)
+   Deck Container
    ========================================================= */
 #deck {
   height: 100vh;
@@ -157,12 +96,12 @@ li {
 }
 
 /* =========================================================
-   Slide Card (UNCHANGED)
+   Slide Card (Base)
    ========================================================= */
 .slide {
   position: absolute;
   inset: 1em 1em 0.1em 1em;
-  padding: 2.5rem;
+  padding: 3rem;
   background: var(--slide-background);
   border: 1px solid rgb(255 255 255 / 5%);
   border-radius: 24px;
@@ -174,65 +113,11 @@ li {
     opacity 0.3s ease-out,
     background-color 0.3s ease;
   z-index: 2;
+  box-sizing: border-box;
+  /* Crucial for alignment */
+  overflow: hidden;
 }
 
-/* =========================================================
-   Slide UI (UNCHANGED)
-   ========================================================= */
-.slide-footer-right {
-  position: absolute;
-  bottom: 1.2rem;
-  right: 1.6rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--text-color) 65%, transparent);
-  pointer-events: none;
-  user-select: none;
-}
-
-.slide-footer-left {
-  position: absolute;
-  bottom: 1.2rem;
-  left: 1.6rem;
-  font-size: 0.5rem;
-  color: color-mix(in srgb, var(--text-color) 65%, transparent);
-  pointer-events: none;
-  user-select: none;
-}
-
-.slide-header-right {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.6rem;
-  font-size: 0.5rem;
-  color: color-mix(in srgb, var(--text-color) 65%, transparent);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* =========================================================
-   Slide Accent Animation (UNCHANGED)
-   ========================================================= */
-.slide::after {
-  content: "";
-  position: absolute;
-  left: -3px;
-  top: 75%;
-  width: 3px;
-  height: 100px;
-  background: linear-gradient(transparent, var(--accent-color), transparent);
-  opacity: 0;
-  transition: top 5s ease, opacity 3s ease;
-}
-
-.slide.animate::after {
-  top: 30%;
-  opacity: 1;
-}
-
-/* =========================================================
-   Slide States (UNCHANGED)
-   ========================================================= */
 .slide.active {
   opacity: 1;
   transform: translateX(0);
@@ -246,7 +131,7 @@ li {
 }
 
 /* =========================================================
-   Layout Helpers (UNCHANGED)
+   Layout Helpers (FIXED)
    ========================================================= */
 .slide.center,
 .slide.keynote {
@@ -257,39 +142,74 @@ li {
   text-align: center;
 }
 
-.slide h1 {
-  font-size: 3rem;
-}
-
-.slide h2 {
-  font-size: 2rem;
-}
-
 .slide.two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 3rem;
   align-items: center;
 }
 
-/* =========================================================
-   Overview Mode (UNCHANGED)
-   ========================================================= */
-body.overview {
-  overflow: hidden;
+/* Typography Scale */
+.slide h1 {
+  font-family: var(--font-mono);
+  color: var(--heading-color);
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
 }
 
+.slide h2 {
+  font-family: var(--font-sans);
+  color: var(--heading-color);
+  font-size: 2.2rem;
+  margin-top: 0;
+}
+
+.slide p,
+.slide li {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Slide UI Elements */
+.slide-footer-right,
+.slide-footer-left,
+.slide-header-right {
+  position: absolute;
+  font-size: 0.7rem;
+  color: color-mix(in srgb, var(--text-color) 65%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.slide-footer-right {
+  bottom: 1.2rem;
+  right: 1.6rem;
+}
+
+.slide-footer-left {
+  bottom: 1.2rem;
+  left: 1.6rem;
+}
+
+.slide-header-right {
+  top: 1.2rem;
+  right: 1.6rem;
+}
+
+/* =========================================================
+   Overview Mode
+   ========================================================= */
 body.overview #deck {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: min-content;
   gap: 2rem;
-  padding: 2rem;
+  padding: 4rem 2rem;
   height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
-  justify-content: center;
   background: transparent;
+  scroll-behavior: smooth;
 }
 
 body.overview .slide {
@@ -300,56 +220,55 @@ body.overview .slide {
   height: auto;
   opacity: 1;
   transform: none;
-  cursor: none;
   zoom: var(--overview-zoom);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-body.overview .slide {
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+/* Keep internal alignment during overview */
+body.overview .slide.center,
+body.overview .slide.keynote,
+body.overview .slide.two-col {
+  display: flex;
+  /* Override grid if necessary for internal flex centering */
+}
+
+body.overview .slide.two-col {
+  display: grid;
 }
 
 body.overview .slide:hover {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-6px) scale(1.02);
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-  border-color: color-mix(in srgb, var(--accent-color) 60%, transparent);
 }
 
-/* Hover index badge (IMPORTANT – UNCHANGED) */
+/* Hover index badge */
 body.overview .slide::before {
   content: attr(data-index);
   position: absolute;
   top: 1rem;
   left: 1rem;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 1.5rem;
   background: var(--accent-color);
   color: white;
   opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
 }
 
 body.overview .slide:hover::before {
   opacity: 1;
-  transform: scale(1);
 }
 
 /* =========================================================
-   Custom Cursor (UNCHANGED)
+   Custom Cursor
    ========================================================= */
 #lens {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 8px;
   height: 8px;
   background: var(--accent-color);
@@ -357,19 +276,4 @@ body.overview .slide:hover::before {
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
-}
-
-#lens::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle,
-      color-mix(in srgb, var(--accent-color) 30%, transparent) 0%,
-      transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
 }

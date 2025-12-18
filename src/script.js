@@ -1,8 +1,8 @@
 const slides = Array.from(document.querySelectorAll('.slide'));
 const totalSlides = slides.length - 1;
-
 const bgLayer = document.getElementById('bg-layer');
 const lens = document.getElementById('lens');
+const deck = document.getElementById('deck');
 
 let current = 0;
 
@@ -11,7 +11,7 @@ let current = 0;
    ========================================================= */
 slides.forEach((slide, i) => {
   slide.dataset.index = i;
-
+  
   const footerR = document.createElement('div');
   footerR.className = 'slide-footer-right';
   footerR.textContent = `${i} / ${totalSlides}`;
@@ -34,7 +34,7 @@ slides.forEach((slide, i) => {
 function showSlide(index) {
   slides.forEach((slide, i) => {
     slide.classList.remove('active', 'prev', 'animate');
-
+    
     slide.querySelectorAll('video').forEach(v => {
       v.pause();
       v.currentTime = 0;
@@ -42,29 +42,34 @@ function showSlide(index) {
 
     if (i === index) {
       slide.classList.add('active');
-      slide.offsetHeight; // reflow
+      slide.offsetHeight; 
       slide.classList.add('animate');
-
       const video = slide.querySelector('video');
       if (video) video.play().catch(() => {});
     }
-
     if (i === index - 1) slide.classList.add('prev');
   });
 
-  if (bgLayer) {
+  if (bgLayer && !document.body.classList.contains('overview')) {
+    bgLayer.style.transition = "background-position 1.2s cubic-bezier(0.22, 1, 0.36, 1)";
     bgLayer.style.backgroundPosition = `${index * -40}px ${index * -15}px`;
   }
-
   updateURL();
 }
 
-
-
-
+/* =========================================================
+   Parallax Overview Effect
+   ========================================================= */
+deck.addEventListener('scroll', () => {
+  if (document.body.classList.contains('overview')) {
+    bgLayer.style.transition = "none";
+    const bgY = deck.scrollTop * 0.2;
+    bgLayer.style.backgroundPosition = `0px -${bgY}px`;
+  }
+});
 
 /* =========================================================
-   Navigation Helpers
+   Navigation & Events
    ========================================================= */
 function updateURL() {
   const url = new URL(window.location);
@@ -90,9 +95,6 @@ function prev() {
   }
 }
 
-/* =========================================================
-   Events
-   ========================================================= */
 document.addEventListener('mousemove', e => {
   lens.style.left = `${e.clientX}px`;
   lens.style.top = `${e.clientY}px`;
@@ -100,27 +102,15 @@ document.addEventListener('mousemove', e => {
 
 document.addEventListener('keydown', e => {
   if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
-
   if (e.key === 't') document.body.classList.toggle('dark');
-  if (e.key === 'f')
-    document.fullscreenElement
-      ? document.exitFullscreen()
-      : document.documentElement.requestFullscreen();
-
-  if (e.key === '-') document.body.classList.toggle('overview');
+  if (e.key === '-') {
+    document.body.classList.toggle('overview');
+    if (bgLayer) bgLayer.style.transition = "background-position 0.5s ease";
+  }
   if (e.key === 'l' || e.key === 'ArrowRight' || e.key === ' ') next();
   if (e.key === 'h' || e.key === 'ArrowLeft') prev();
-
-  if (e.key === 'g') {
-    if (this.lastG && Date.now() - this.lastG < 300) {
-      current = 0;
-      showSlide(current);
-    }
-    this.lastG = Date.now();
-  }
 });
 
-/* Overview click */
 slides.forEach((slide, i) => {
   slide.addEventListener('click', () => {
     if (document.body.classList.contains('overview')) {
@@ -131,9 +121,6 @@ slides.forEach((slide, i) => {
   });
 });
 
-
-/* =========================================================
-   Start
-   ========================================================= */
+// init keep this at the end
 readURL();
 showSlide(current);
