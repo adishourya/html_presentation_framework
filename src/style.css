@@ -299,6 +299,95 @@ body.dark .slide li {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* images looks rounded */
+
+/* --- Image Card Styling --- */
+
+.slide img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+
+  /* The "Card" Look */
+  border-radius: 12px;
+  /* Slightly sharper than the slide's 24px for a nested look */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  /* Spacing */
+  margin: 1.5rem auto;
+  /* Centers the image and adds space above/below */
+
+  /* Optional: A very subtle border to define the edges on white backgrounds */
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  /* Gallery Hover Effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Adds a little "lift" when you hover over an image */
+.slide img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Fix for two-column layout images */
+.slide.two-col img {
+  margin: 0;
+  /* Remove auto centering when inside a grid column */
+  width: 100%;
+}
+
+/* add counters for your images */
+
+/* --- Scientific Figure Tracking --- */
+
+/* 1. Initialize the counter at the start of the deck */
+#deck {
+  counter-reset: figure-count;
+}
+
+/* 2. Style the Figure container */
+figure {
+  margin: 2rem auto;
+  display: table;
+  /* Shrinks the container to the image width */
+  counter-increment: figure-count;
+  /* Increment the number */
+}
+
+/* 3. Re-apply your image card styles to images inside figures */
+figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+figure:hover img {
+  transform: translateY(-5px);
+}
+
+/* 4. Style the Caption */
+figcaption {
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #4c566a;
+  /* A softer gray-blue */
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+/* 5. Automatically insert "Figure X: " before the caption text */
+figcaption::before {
+  content: "Figure " counter(figure-count) ": ";
+  font-weight: bold;
+  color: var(--heading-colors);
+}
+
 /* Typography Scale */
 .slide h1 {
   font-family: var(--font-mono);
