@@ -100,17 +100,108 @@ document.addEventListener('mousemove', e => {
   lens.style.top = `${e.clientY}px`;
 });
 
+// keybindings
+
+let keyBuffer = ""; 
+let gPrefix = false; // Dedicated flag for the 'g' command
+let clearBufferTimer = null;
+
 document.addEventListener('keydown', e => {
+  // Ignore if typing in an input
   if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
-  if (e.key === 't') document.body.classList.toggle('dark');
-  if (e.key === '-') {
+
+  const key = e.key;
+
+  // Clear existing timeout whenever a key is pressed
+  clearTimeout(clearBufferTimer);
+  
+  // Set a 800ms timeout to clear everything if user hesitates
+  clearBufferTimer = setTimeout(() => {
+    keyBuffer = "";
+    gPrefix = false;
+  }, 800);
+
+  // 1. Handle Numbers (Buffer)
+  if (/[0-9]/.test(key)) {
+    keyBuffer += key;
+    return;
+  }
+
+  // 2. Navigation: Next (l, j, ArrowRight, ArrowDown, Space)
+  if (['l', 'j', 'ArrowRight', 'ArrowDown', ' '].includes(key)) {
+    next();
+    resetVimState();
+    return;
+  }
+
+  // 3. Navigation: Previous (h, k, ArrowLeft, ArrowUp)
+  if (['h', 'k', 'ArrowLeft', 'ArrowUp'].includes(key)) {
+    prev();
+    resetVimState();
+    return;
+  }
+
+  // 4. Vim Jump Logic
+  if (key === 'g') {
+    if (!gPrefix) {
+      // First 'g' detected
+      gPrefix = true;
+    } else {
+      // Second 'g' detected -> Execute gg or [n]gg
+      if (keyBuffer !== "") {
+        const target = parseInt(keyBuffer);
+        // Clamp between 0 and totalSlides
+        current = Math.min(Math.max(target, 0), totalSlides);
+        showSlide(current);
+      } else {
+        current = 0; // Pure gg
+        showSlide(current);
+      }
+      resetVimState();
+    }
+    return;
+  }
+
+  if (key === 'e' && gPrefix) {
+    // ge command
+    current = totalSlides;
+    showSlide(current);
+    resetVimState();
+    return;
+  }
+
+  // 5. Controls
+  if (key === 't') {
+    document.body.classList.toggle('dark');
+    resetVimState();
+  } 
+  else if (key === 'f') {
+    document.fullscreenElement
+      ? document.exitFullscreen()
+      : document.documentElement.requestFullscreen();
+    resetVimState();
+  } 
+  else if (key === '-') {
     document.body.classList.toggle('overview');
     if (bgLayer) bgLayer.style.transition = "background-position 0.5s ease";
+    resetVimState();
+  } else {
+    // If any other key is pressed, reset the Vim buffer
+    resetVimState();
   }
-  if (e.key === 'l' || e.key === 'ArrowRight' || e.key === ' ') next();
-  if (e.key === 'h' || e.key === 'ArrowLeft') prev();
 });
 
+// Helper to keep code clean
+function resetVimState() {
+  keyBuffer = "";
+  gPrefix = false;
+  clearTimeout(clearBufferTimer);
+}
+
+
+
+
+// overview click to goto slide
 slides.forEach((slide, i) => {
   slide.addEventListener('click', () => {
     if (document.body.classList.contains('overview')) {
