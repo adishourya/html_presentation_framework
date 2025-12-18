@@ -156,6 +156,63 @@ body {
   align-items: center;
 }
 
+/* text at pos */
+
+
+/* =========================================================
+   Corner Positioning Utilities (Fixed for Grid)
+   ========================================================= */
+.top.left,
+.top.right,
+.bottom.left,
+.bottom.right {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  /* Allows clicking "through" them to the slide */
+  /* font-weight: 300; */
+}
+
+.top.left {
+  top: 3rem;
+  left: 1.5rem;
+  text-align: left;
+}
+
+.top.right {
+  top: 3rem;
+  right: 1.5rem;
+  text-align: right;
+}
+
+.bottom.left {
+  bottom: 3rem;
+  left: 1.5rem;
+  text-align: left;
+}
+
+.bottom.right {
+  bottom: 3rem;
+  right: 1.5rem;
+  text-align: right;
+}
+
+/* =========================================================
+   Column Utilities (Main Content)
+   ========================================================= */
+/* Forces an element into the left half of a two-col slide */
+.left {
+  grid-column: 1;
+  width: 100%;
+}
+
+/* Forces an element into the right half of a two-col slide */
+.right {
+  grid-column: 2;
+  width: 100%;
+}
+
+
 /* Typography Scale */
 .slide h1 {
   font-family: var(--font-mono);
