@@ -7,21 +7,21 @@
   --background-color: #dbdee9;
   --slide-background: #fefefe;
   --heading-color: #000000;
+  --small-heading-color: #646464;
   --text-color: #212121;
   --overview-zoom: 0.35;
   --font-sans: 'Helvetica Neue', sans-serif;
-  --font-sans: 'Helvetica Neue', sans-serif;
-  /* --font-mono: 'FreeMono', sans-serif; */
+  --font-mono: 'FreeMono', sans-serif;
   /* --font-mono: 'SF Mono', sans-serif; */
   /* --font-mono: 'Martian Mono', sans-serif; */
   /* --font-mono: 'Cairo Play', sans-serif; */
 
   /* Background grid subtle */
-  /* --grid-minor: rgba(0, 0, 0, 0.04); */
-  /* --grid-major: rgba(0, 0, 0, 0.07); */
+  --grid-minor: rgba(0, 0, 0, 0.1);
+  --grid-major: rgba(0, 0, 0, 0.2);
 
-  --grid-minor: #94949450;
-  --grid-major: #848484;
+  /* --grid-minor: #94949450; */
+  /* --grid-major: #848484; */
 
 }
 
@@ -78,6 +78,8 @@ body {
   background-image:
     repeating-linear-gradient(45deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px),
     repeating-linear-gradient(-45deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px),
+    /* repeating-linear-gradient(0deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px), */
+    /* repeating-linear-gradient(90deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px), */
     repeating-linear-gradient(0deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 80px),
     repeating-linear-gradient(90deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 80px);
   background-size: 160px 160px;
@@ -134,7 +136,7 @@ body {
   content: "";
   position: absolute;
   left: 0px;
-  top: 75%;
+  top: 80%;
   width: 2px;
   height: 100px;
   background: linear-gradient(transparent, var(--accent-color), transparent);
@@ -144,7 +146,7 @@ body {
 
 /* .slide:hover::after, */
 .slide.animate::after {
-  top: 30%;
+  top: 43%;
   opacity: 1;
 }
 
@@ -211,7 +213,7 @@ body {
 
 .top.left {
   top: 3rem;
-  left: 1.5rem;
+  left: 0rem;
   text-align: left;
 }
 
@@ -236,7 +238,7 @@ body {
 
 .bottom.left {
   bottom: 3rem;
-  left: 1.5rem;
+  left: 0rem;
   text-align: left;
 }
 
@@ -420,7 +422,7 @@ figcaption::before {
 
 /* Typography Scale */
 .slide h1 {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   color: var(--heading-color);
   font-size: 3.5rem;
   font-weight: 400;
@@ -428,6 +430,26 @@ figcaption::before {
   /* This helps large headings feel more "solid" */
   line-height: 1.1;
 }
+
+.slide h3,
+.slide h4,
+.slide h5 {
+  font-family: var(--font-sans);
+  color: var(--small-heading-color);
+}
+
+.slide h3 {
+  font-size: 1.6rem;
+}
+
+.slide h4 {
+  font-size: 1.4rem;
+}
+
+.slide h5 {
+  font-size: 1.2rem;
+}
+
 
 .slide h2 {
   font-family: var(--font-sans);
@@ -444,6 +466,7 @@ figcaption::before {
 }
 
 /* Slide UI Elements */
+.slide-footer-center,
 .slide-footer-right,
 .slide-footer-left,
 .slide-header-right {
@@ -454,18 +477,29 @@ figcaption::before {
   user-select: none;
 }
 
+.slide-footer-center {
+  bottom: 1rem;
+  left: 50%;
+  /* Moves the left edge to the middle */
+  transform: translateX(-50%);
+  text-align: center;
+  width: auto;
+  white-space: nowrap;
+}
+
 .slide-footer-right {
-  bottom: 1.2rem;
+  font-size: 0.9rem;
+  bottom: 1rem;
   right: 1.6rem;
 }
 
 .slide-footer-left {
-  bottom: 1.2rem;
+  bottom: 1rem;
   left: 1.6rem;
 }
 
 .slide-header-right {
-  top: 1.2rem;
+  top: 1rem;
   right: 1.6rem;
 }
 

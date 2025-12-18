@@ -19,13 +19,18 @@ slides.forEach((slide, i) => {
 
   const footerL = document.createElement('div');
   footerL.className = 'slide-footer-left';
-  footerL.textContent = 'Maastricht University';
+  footerL.textContent = 'University Name';
   slide.appendChild(footerL);
 
-  const headerR = document.createElement('div');
-  headerR.className = 'slide-header-right';
-  headerR.textContent = 'Topic';
-  slide.appendChild(headerR);
+  const footerC = document.createElement('div');
+  footerC.className = 'slide-footer-center';
+  footerC.textContent = 'Dept.';
+  slide.appendChild(footerC);
+
+  // const headerR = document.createElement('div');
+  // headerR.className = 'slide-header-right';
+  // headerR.textContent = 'Topic';
+  // slide.appendChild(headerR);
 });
 
 /* =========================================================
