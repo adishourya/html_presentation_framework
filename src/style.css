@@ -10,7 +10,11 @@
   --text-color: #212121;
   --overview-zoom: 0.35;
   --font-sans: 'Helvetica Neue', sans-serif;
-  --font-mono: 'Martian Mono', sans-serif;
+  --font-sans: 'Helvetica Neue', sans-serif;
+  /* --font-mono: 'FreeMono', sans-serif; */
+  /* --font-mono: 'SF Mono', sans-serif; */
+  /* --font-mono: 'Martian Mono', sans-serif; */
+  /* --font-mono: 'Cairo Play', sans-serif; */
 
   /* Background grid subtle */
   /* --grid-minor: rgba(0, 0, 0, 0.04); */
@@ -181,6 +185,8 @@ body {
 /* =========================================================
    Corner Positioning Utilities (Fixed for Grid)
    ========================================================= */
+.top.center,
+.bottom.center,
 .top.left,
 .top.right,
 .bottom.left,
@@ -190,6 +196,17 @@ body {
   pointer-events: none;
   /* Allows clicking "through" them to the slide */
   /* font-weight: 300; */
+}
+
+
+.top.center {
+  top: 3rem;
+  left: 50%;
+  /* Moves the left edge to the middle */
+  transform: translateX(-50%);
+  text-align: center;
+  width: auto;
+  white-space: nowrap;
 }
 
 .top.left {
@@ -202,6 +219,19 @@ body {
   top: 3rem;
   right: 1.5rem;
   text-align: right;
+}
+
+.bottom.center {
+  position: absolute;
+  bottom: 2rem;
+  /* Distance from the bottom of the slide */
+  left: 50%;
+  /* Moves the left edge to the middle */
+  transform: translateX(-50%);
+  text-align: center;
+  width: auto;
+  white-space: nowrap;
+  /* Prevents text from wrapping if it gets long */
 }
 
 .bottom.left {
@@ -262,7 +292,7 @@ body {
 /* The Number Block */
 .slide li::before {
   counter-increment: slide-counter;
-  content: counter(slide-counter, decimal-leading-zero);
+  content: counter(slide-counter, decimal);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -393,6 +423,10 @@ figcaption::before {
   font-family: var(--font-mono);
   color: var(--heading-color);
   font-size: 3.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  /* This helps large headings feel more "solid" */
+  line-height: 1.1;
 }
 
 .slide h2 {

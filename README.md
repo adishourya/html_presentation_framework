@@ -1,6 +1,6 @@
 # A HTML Presentation Framework
 
-A minimal, developer-first presentation framework built with vanilla JavaScript and CSS. It features **Helix-inspired** keybindings, a unique **magnifying lens cursor**, and a "smart" dark mode for technical content.
+A minimal, yet fancy scientific-first presentation framework built with a single file of vanilla JavaScript and CSS. It features **Helix/Vim-inspired** keybindings for easier navigation.
 
 ### [🚀 Try the Demo Slides](https://adishourya.github.io/html_presentation_framework/?slide=0)
 
