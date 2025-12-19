@@ -763,6 +763,7 @@ body.overview #controls-bar button:not(#overview-btn) {
   pointer-events: none;
   /* Default to off so you can click slides */
   cursor: crosshair;
+  touch-action: none;
 }
 
 /* When the pen or eraser is active, we enable pointer events */

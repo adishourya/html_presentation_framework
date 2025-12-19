@@ -51,7 +51,6 @@ function loadCanvasState(index) {
 }
 
 function resizeCanvas() {
-  // Save before resize because resizing clears canvas
   const tempState = canvas.toDataURL();
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -66,7 +65,6 @@ resizeCanvas();
    Slide Logic
    ========================================================= */
 function showSlide(index) {
-  // Save current slide's drawing before moving to the next
   saveCanvasState();
 
   slides.forEach((slide, i) => {
@@ -93,13 +91,12 @@ function showSlide(index) {
   }
   
   current = index;
-  // Load the drawing for the new slide
   loadCanvasState(current);
   updateURL();
 }
 
 /* =========================================================
-   Drawing Tools UI & Logic
+   Drawing Tools UI & Logic (Pointer API for iPad/Stylus)
    ========================================================= */
 function setTool(newMode) {
   if (mode === newMode && document.body.classList.contains('drawing-mode')) {
@@ -117,30 +114,47 @@ function setTool(newMode) {
 penBtn.addEventListener('click', () => setTool('pen'));
 eraserBtn.addEventListener('click', () => setTool('eraser'));
 
-canvas.addEventListener('mousedown', (e) => {
+// Pointer events handle Mouse, Touch, and Stylus simultaneously
+canvas.addEventListener('pointerdown', (e) => {
+  // Capture pointer to handle drawing even if pencil leaves the canvas area
+  if (e.pointerType !== 'mouse') canvas.setPointerCapture(e.pointerId);
+  
   isDrawing = true;
   ctx.beginPath();
   ctx.moveTo(e.clientX, e.clientY);
+  e.preventDefault(); 
 });
 
-canvas.addEventListener('mousemove', (e) => {
+canvas.addEventListener('pointermove', (e) => {
   if (!isDrawing) return;
-  ctx.lineWidth = mode === 'pen' ? 3 : 30;
+
+  // Pressure support: Multiplies pressure (0 to 1) by a base thickness
+  // Fallback to 3 if pressure is not supported (standard mouse/touch)
+  const pressure = e.pressure > 0 ? e.pressure * 10 : 3;
+  
+  ctx.lineWidth = mode === 'pen' ? pressure : 40;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
   if (mode === 'pen') {
     ctx.globalCompositeOperation = 'source-over';
-    ctx.strokeStyle = '#5e81ac'; // Your Blue Pen
+    ctx.strokeStyle = '#5e81ac'; 
   } else {
     ctx.globalCompositeOperation = 'destination-out';
   }
+  
   ctx.lineTo(e.clientX, e.clientY);
   ctx.stroke();
+  e.preventDefault();
 });
 
-canvas.addEventListener('mouseup', () => { isDrawing = false; ctx.closePath(); });
-canvas.addEventListener('mouseout', () => { isDrawing = false; });
+canvas.addEventListener('pointerup', (e) => { 
+  isDrawing = false; 
+  ctx.closePath(); 
+  if (e.pointerType !== 'mouse') canvas.releasePointerCapture(e.pointerId);
+});
+
+canvas.addEventListener('pointercancel', () => { isDrawing = false; });
 
 /* =========================================================
    Navigation & Events
@@ -168,9 +182,15 @@ function prev() {
   }
 }
 
-document.addEventListener('mousemove', e => {
-  lens.style.left = `${e.clientX}px`;
-  lens.style.top = `${e.clientY}px`;
+// Custom cursor logic: Hide on iPad/Touch, show on Desktop
+document.addEventListener('pointermove', e => {
+  if (e.pointerType === 'mouse') {
+    lens.style.display = 'block';
+    lens.style.left = `${e.clientX}px`;
+    lens.style.top = `${e.clientY}px`;
+  } else {
+    lens.style.display = 'none';
+  }
 });
 
 // Figure Numbering Helper
@@ -218,8 +238,8 @@ document.addEventListener('keydown', e => {
   if (['l', 'arrowright', ' '].includes(key)) { next(); resetVimState(); return; }
   if (['h', 'arrowleft'].includes(key)) { prev(); resetVimState(); return; }
   if (key === 'c') { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
-  if (key == "p") {setTool('pen');}
-  if (key == "e") {setTool('eraser');}
+  if (key === "p") { setTool('pen'); }
+  if (key === "e") { setTool('eraser'); }
 
   if (key === 'g') {
     if (!gPrefix) { gPrefix = true; } 
