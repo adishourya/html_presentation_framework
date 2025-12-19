@@ -753,3 +753,29 @@ body.overview #controls-bar button:not(#overview-btn) {
   position: static !important;
   opacity: 1 !important;
 }
+
+/* Add this to your style.css */
+#drawing-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  /* Above slides, below controls */
+  pointer-events: none;
+  /* Default to off so you can click slides */
+  cursor: crosshair;
+}
+
+/* When the pen or eraser is active, we enable pointer events */
+body.drawing-mode #drawing-canvas {
+  pointer-events: auto;
+}
+
+/* Hide the canvas in overview mode so it doesn't float over the grid */
+body.overview #drawing-canvas {
+  display: none;
+}
+
+/* Adjust your custom cursor when drawing */
+body.drawing-mode #lens {
+  display: none;
+}
