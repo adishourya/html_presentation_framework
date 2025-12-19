@@ -243,6 +243,20 @@ slides.forEach((slide, i) => {
   });
 });
 
+// click to go next prev
+document.getElementById('nav-next').onclick = next;
+document.getElementById('nav-prev').onclick = prev;
+// click to toggle theme
+
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.onclick = () => {
+  document.body.classList.toggle('dark');
+};
+
+// pen
+
+
+
 // init keep this at the end
 readURL();
 showSlide(current);
