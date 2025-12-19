@@ -253,9 +253,10 @@ themeToggle.onclick = () => {
   document.body.classList.toggle('dark');
 };
 
-// pen
-
-
+// Toggle Overview Mode
+document.getElementById('overview-btn').addEventListener('click', () => {
+  document.body.classList.toggle('overview');
+});
 
 // init keep this at the end
 readURL();

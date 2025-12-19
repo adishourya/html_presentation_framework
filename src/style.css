@@ -694,3 +694,62 @@ body.dark #theme-toggle .icon-moon {
 body.overview #theme-toggle {
   display: none;
 }
+
+/* =========================================================
+   Controls Bar (Vertical Utility Bar)
+   ========================================================= */
+#controls-bar {
+  position: fixed;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  opacity: 0.1;
+  /* Matches your current nav-indicator behavior */
+  transition: opacity 0.3s ease;
+}
+
+#controls-bar:hover {
+  opacity: 1;
+}
+
+/* Button Styling (Inherited from your #theme-toggle) */
+#controls-bar button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+  background: color-mix(in srgb, var(--slide-background) 90%, transparent);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  color: var(--accent-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s ease;
+}
+
+#controls-bar button:hover {
+  transform: translateY(-2px);
+  background: var(--slide-background);
+  color: var(--heading-color);
+}
+
+#controls-bar button.active {
+  background: var(--accent-color);
+  color: #fff;
+  border-color: var(--accent-color);
+}
+
+/* Specific Hide in Overview Logic */
+body.overview #controls-bar button:not(#overview-btn) {
+  display: none;
+}
+
+/* Remove your old #theme-toggle absolute positioning since it's now in the bar */
+#theme-toggle {
+  position: static !important;
+  opacity: 1 !important;
+}
