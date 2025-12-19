@@ -22,10 +22,10 @@ slides.forEach((slide, i) => {
   footerL.textContent = 'University Name';
   slide.appendChild(footerL);
 
-  const footerC = document.createElement('div');
-  footerC.className = 'slide-footer-center';
-  footerC.textContent = 'Dept.';
-  slide.appendChild(footerC);
+  // const footerC = document.createElement('div');
+  // footerC.className = 'slide-footer-center';
+  // footerC.textContent = 'Dept.';
+  // slide.appendChild(footerC);
 
   // const headerR = document.createElement('div');
   // headerR.className = 'slide-header-right';
@@ -161,14 +161,14 @@ document.addEventListener('keydown', e => {
   }
 
   // 2. Navigation: Next (l, j, ArrowRight, ArrowDown, Space)
-  if (['l', 'j', 'ArrowRight', 'ArrowDown', ' '].includes(key)) {
+  if (['l', 'ArrowRight', ' '].includes(key)) {
     next();
     resetVimState();
     return;
   }
 
   // 3. Navigation: Previous (h, k, ArrowLeft, ArrowUp)
-  if (['h', 'k', 'ArrowLeft', 'ArrowUp'].includes(key)) {
+  if (['h', 'ArrowLeft'].includes(key)) {
     prev();
     resetVimState();
     return;
@@ -230,8 +230,6 @@ function resetVimState() {
   gPrefix = false;
   clearTimeout(clearBufferTimer);
 }
-
-
 
 
 // overview click to goto slide
