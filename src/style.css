@@ -88,6 +88,7 @@ body {
   filter: blur(0.6px);
   opacity: 0.9;
   will-change: background-position;
+  transition: background-position 0.08s linear;
 }
 
 #bg-layer::after {
