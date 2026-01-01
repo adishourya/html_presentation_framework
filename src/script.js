@@ -62,6 +62,33 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+
+// =========================================================
+// Figure Numberings
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const images = document.querySelectorAll('.slide img');
+
+  images.forEach(img => {
+    // 1. Handle Dummy Image Generation
+    if (img.dataset.dummy) {
+      const text = encodeURIComponent(img.dataset.dummy);
+      const size = img.dataset.size || "800x500"; // Default size
+      img.src = `https://dummyimage.com/${size}/4c566a/eceff4&text=${text}`;
+    }
+
+    // 2. Wrap in Figure & Add Numbered Caption (Scientific Style)
+    const figure = document.createElement('figure');
+    const caption = document.createElement('figcaption');
+    caption.textContent = img.alt || "Untitled Figure";
+
+    // Place the figure where the image was, then move image into it
+    img.parentNode.insertBefore(figure, img);
+    figure.appendChild(img);
+    figure.appendChild(caption);
+  });
+});
 /* =========================================================
    Slide Logic
    ========================================================= */
@@ -207,6 +234,38 @@ deck.addEventListener('scroll', () => {
       ticking = false;
     });
     ticking = true;
+  }
+});
+
+
+/* =========================================================
+   Image Fullscreen Viewer
+   ========================================================= */
+
+const overlay = document.getElementById('image-overlay');
+const overlayImg = document.getElementById('overlay-img');
+
+document.addEventListener('click', (e) => {
+  const img = e.target.closest('.slide img');
+  if (!img || document.body.classList.contains('overview')) return;
+
+  overlayImg.src = img.src;
+  overlayImg.alt = img.alt || '';
+  overlay.classList.add('active');
+  document.body.classList.add('image-viewer-open');
+});
+
+function closeImageOverlay() {
+  overlay.classList.remove('active');
+  document.body.classList.remove('image-viewer-open');
+  overlayImg.src = '';
+}
+
+overlay.addEventListener('click', closeImageOverlay);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && overlay.classList.contains('active')) {
+    closeImageOverlay();
   }
 });
 

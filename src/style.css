@@ -78,8 +78,6 @@ body {
   background-image:
     repeating-linear-gradient(45deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px),
     repeating-linear-gradient(-45deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px),
-    /* repeating-linear-gradient(0deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px), */
-    /* repeating-linear-gradient(90deg, var(--grid-minor) 0px, var(--grid-minor) 1px, transparent 1px, transparent 14px), */
     repeating-linear-gradient(0deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 80px),
     repeating-linear-gradient(90deg, var(--grid-major) 0px, var(--grid-major) 1px, transparent 1px, transparent 80px);
   background-size: 160px 160px;
@@ -370,10 +368,48 @@ body.dark .slide li {
   width: 100%;
 }
 
+/* =========================================================
+   TRUE Fullscreen Image Mode
+   ========================================================= */
+
+#image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  /* Above EVERYTHING */
+
+  /* Transparent so backdrop-filter can sample */
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  /* Safari */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+#image-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+#image-overlay img {
+  width: 95vw;
+  height: 95vh;
+  object-fit: contain;
+  box-shadow: none;
+  margin: 1em;
+  cursor: zoom-out;
+}
+
 /* add counters for your images */
-
 /* --- Scientific Figure Tracking --- */
-
 /* 1. Initialize the counter at the start of the deck */
 #deck {
   counter-reset: figure-count;
